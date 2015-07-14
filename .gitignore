@@ -1,0 +1,4 @@
+# Ignorar carpeta de express-generator
+
+node_modules
+quiz.sqlite
