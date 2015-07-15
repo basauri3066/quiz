@@ -1,7 +1,7 @@
 # Ignorar carpeta de express-generator
 
-node_modules
+/node_modules
 quiz.sqlite
-.env
+/*.env
 .DS_Store
 npm-debug.log
