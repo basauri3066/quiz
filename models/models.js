@@ -41,7 +41,7 @@ exports.Quiz = Quiz; //Exportamos la fefinición de la tabla quiz
 // con sequelize.sync({force: true}) forzamos a que se vuelvan a crear las tablas
 //quitar {force:true} para que no se vuelva a crear la tabla
 
-sequelize.sync({force: true}).success(function() {
+sequelize.sync().success(function() {
 	//success(..)ejecuta el manejador una vez que se han creado las tablas
 	Quiz.count().success(function(count){
 		if (count===0) { //La tabla se inicializa solo si esta vacia
