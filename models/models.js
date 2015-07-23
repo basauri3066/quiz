@@ -41,9 +41,9 @@ exports.Quiz = Quiz; //Exportamos la fefinición de la tabla quiz
 // con sequelize.sync({force: true}) forzamos a que se vuelvan a crear las tablas
 //quitar {force:true} para que no se vuelva a crear la tabla
 
-sequelize.sync().success(function() {
+sequelize.sync().then(function(){
 	//success(..)ejecuta el manejador una vez que se han creado las tablas
-	Quiz.count().success(function(count){
+	 Quiz.count().then(function(count){
 		if (count===0) { //La tabla se inicializa solo si esta vacia
 			Quiz.create({pregunta: 'Capital de Italia', respuesta: 'Roma'})
 			.success(function(){console.log('Base de datos inicializada')});				
