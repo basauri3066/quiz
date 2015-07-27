@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var routes = require('./routes/index');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 
 
@@ -23,9 +24,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false })); En quizz 11 paso 3 quitado el extended
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015'));
+app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Helpers dinamicos
+app.use(function(req, res, next){
+        //Guardar path en session.redir para despues del login hacer la redirección
+        if (!req.session.redir) {                                // si no existe lo inicializa
+             req.session.redir = '/';
+        }
+        if (!req.path.match(/\/login|\/logout/)){ 
+            //console.log('b-->'+ req.path.toString() + '<---b')
+            req.session.redir = req.path;}
+        //Hacemos visible req.session en las vistas
+        res.locals.session = req.session;
+        next();
+});
 
 
 app.use('/', routes);
