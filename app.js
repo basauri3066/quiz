@@ -26,6 +26,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('Quiz 2015'));
 app.use(session());
+
+
+
+
+
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,6 +47,26 @@ app.use(function(req, res, next){
         res.locals.session = req.session;
         next();
 });
+
+//Control de Timeout
+
+app.use(function(req, res, next){
+  // Lo vamos a hacer solo si hemos hecho el login
+  if(req.session.user){   
+    var now = new Date();
+    
+    // Voy a poner un timeout de 30 sg para poder hacer las pruebas
+    if((now.getTime() - req.session.horaOperacion) > (30000)){  //pongo el tiempo en Ms
+      
+      delete req.session.user;  //Eliminamos la sesion
+      
+    }
+    // Almacenamos la hora de la transaccion actual
+    req.session.horaOperacion = now.getTime();
+  }
+  next();
+});
+
 
 
 app.use('/', routes);
